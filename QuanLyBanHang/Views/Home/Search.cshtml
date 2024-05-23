@@ -1,0 +1,80 @@
+@{
+    ViewData["Title"] = "Search";
+    ViewData["Name"] = "Search";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<script src="~/JsController/SearchCtrl.js"></script>
+<div class="card benefit" ng-controller="SearchCtrl">
+
+    <div class="d-flex justify-content-between m-2 mb-0" data-toggle="buttons">
+        <button onclick="location.href = '/'" class="btn btn-outline-primary" style="cursor: pointer;"><i
+                class="fa-solid fa-backward"></i>
+            Quay lại</button>
+        <div class="d-flex">
+            <input type="text" class="form-control me-3" placeholder="Search..." ng-model="searchInput">
+            <div class="btn-group">
+                <button ng-click="sortType = 'item.name'; sortReverse = !sortReverse"
+                    class="btn btn-outline-primary btn-sm">
+                    <div ng-show="sortType !== 'item.name'">
+                        <i class="fa-solid fa-sort"></i>
+                        Sắp xếp theo tên
+                    </div>
+                    <div ng-show="sortType === 'item.name' && sortReverse===true">
+                        <i class="fa-solid fa-sort-up"></i>
+                        Từ dưới lên trên
+                    </div>
+                    <div ng-show="sortType === 'item.name' && sortReverse===false">
+                        <i class="fa-solid fa-sort-down"></i>
+                        Từ trên xuống dưới
+                    </div>
+                </button>
+                <button ng-click="sortType = 'item.giaGiamGia'; sortReverse = !sortReverse"
+                    class="btn btn-outline-primary btn-sm">
+                    <div ng-show="sortType !== 'item.giaGiamGia'">
+                        <i class="fa-solid fa-sort"></i>
+                        Sắp xếp theo giá
+                    </div>
+                    <div ng-show="sortType === 'item.giaGiamGia' && sortReverse===true">
+                        <i class="fa-solid fa-sort-up"></i>
+                        Từ dưới lên trên
+                    </div>
+                    <div ng-show="sortType === 'item.giaGiamGia' && sortReverse===false">
+                        <i class="fa-solid fa-sort-down"></i>
+                        Từ trên xuống dưới
+                    </div>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <hr class="bg-secondary">
+
+    <div class="pb-5">
+        <div class="row m-0 p-0">
+            <div class="product-item m-0 p-0 col-2" ng-repeat="item in listSanPham | filter:searchInput | orderBy:sortType:sortReverse">
+                <div class="product discount product_filter">
+                    <a href="/SanPhams/ChiTiet?id={{item.id}}">
+                        <div class="product_image">
+                            <img src="{{item.anhs.img}}">
+                        </div>
+                        <div class="product_info">
+                            <h6 class="product_name">
+                                {{item.name}}
+                            </h6>
+                            <div class="product_price">
+                                {{formatter(item.giaGiamGia)}}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <button class="red_button add_to_cart_button border-0">
+                    <a href="/SanPhams/ChiTiet?id={{item.id}}">
+                        Chi tiết sản phẩm
+                    </a>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
